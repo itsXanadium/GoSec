@@ -1,4 +1,4 @@
-module go-discord-bot
+module github.com/itsXanadium/GoSec
 
 go 1.25.1
 

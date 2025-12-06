@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	bot "go-discord-bot/service"
+
+	bot "github.com/itsXanadium/GoSec/service"
 )
 
 func main() {

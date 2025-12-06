@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
+
+	"github.com/itsXanadium/GoSec/tools"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
@@ -28,6 +31,20 @@ func BotSessionHandler() error {
 		if m.Content == "hello" {
 			s.ChannelMessageSend(m.ChannelID, "Halo")
 		}
+		// The !scan command
+		if strings.HasPrefix(m.Content, "!scan") {
+			args := strings.Split(m.Content, " ")
+			if len(args) < 2 {
+				s.ChannelMessageSend(m.ChannelID, "To use command !scan: !scan <host>")
+				return
+			}
+			host := args[1]
+			s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("Scanning %s.....", host))
+			go func() {
+				result := tools.Portscanner(host)
+				s.ChannelMessageSend(m.ChannelID, result)
+			}()
+		}
 		session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 	})
 	err = session.Open()
@@ -40,4 +57,5 @@ func BotSessionHandler() error {
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc
 	return nil
+
 }
