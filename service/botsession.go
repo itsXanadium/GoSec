@@ -45,6 +45,20 @@ func BotSessionHandler() error {
 				s.ChannelMessageSend(m.ChannelID, result)
 			}()
 		}
+		//!apkoi
+		if strings.HasPrefix(m.Content, "!apkoi") {
+			s.ChannelMessageSend(m.ChannelID, "http://apkoi.web.id/")
+		}
+		session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
+
+		//!Developer
+		if m.Content == "!dev" {
+			s.ChannelMessageSend(m.ChannelID, "use !developer")
+			return
+		}
+		if strings.HasPrefix(m.Content, "!developer") {
+			s.ChannelMessageSend(m.ChannelID, "https://xanadium.my.id\nhttps://github.com/itsXanadium")
+		}
 		session.Identify.Intents = discordgo.IntentsAllWithoutPrivileged
 	})
 	err = session.Open()
